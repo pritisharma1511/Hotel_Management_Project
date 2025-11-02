@@ -16,33 +16,30 @@ const reservationSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        validate: [validator.isEmail, "Please enter a valid email address"]
     },
-    hotel: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Hotel",
-        required: true
-    },
-    room: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Room",
-        required: true
-    },
-    checkInDate: {
-        type: Date,
-        required: true
-    },
-    checkOutDate: {
-        type: Date,
-        required: true
-    },
-    status: {
+    phone: {
         type: String,
-        enum: ["pending", "confirmed", "canceled"],
-        default: "pending"
+        required: true,
+        minlength: [7, "Phone number must be at least 7 digits long"],
+        maxlength: [10, "Phone number must be at most 10 digits long"],
+        validate: [validator.isMobilePhone, "Please enter a valid phone number"]
+    },
+    time: {
+        type: String,
+        required: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    },
+    {
+        timestamps: true
     }
-}, { timestamps: true });
+);
 
-const Reservation = mongoose.model("Reservation", reservationSchema);
+export const Reservation = mongoose.model("Reservation", reservationSchema);
 
-export default Reservation;
+
